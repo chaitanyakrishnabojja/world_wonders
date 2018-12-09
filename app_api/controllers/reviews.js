@@ -1,6 +1,43 @@
 const mongoose = require('mongoose');
 const Loc = mongoose.model('Location');
 
+
+
+const doAddReview = (req, res, location) => { 
+    if (!location) {
+            res
+                .status(404)
+                .json({"message": "Location not found"});
+    } else {
+        const {author, rating, reviewText} = req.body;
+        console.log("location", location);
+        console.log("author", req.body.author);
+        console.log("rating", req.body.rating);
+        console.log("reviewText", req.body.reviewText);
+        
+        location.reviews.push({ 
+            author: req.body.author,
+            rating: req.body.rating,
+            reviewText: req.body.reviewText
+        });
+    location.save((err, location) => { 
+        console.log("location saving", location);
+                    if (err) {
+                        console.log("400 error", err);
+                            res
+                                .status(400)
+                                .json(err);
+                    } else {
+                        updateAverageRating(location._id); 
+                        const thisReview = location.reviews[location.reviews.length - 1];
+                        res 
+                            .status(201)
+                            .json(thisReview);
+                    }
+        });
+    }
+};
+
 const reviewsCreate = (req, res) => {
     const locationId = req.params.locationid;
     if (locationId) {
@@ -24,33 +61,7 @@ const reviewsCreate = (req, res) => {
 };
 
 
-const doAddReview = (req, res, location) => { 
-    if (!location) {
-            res
-                .status(404)
-                .json({"message": "Location not found"});
-    } else {
-        const {author, rating, reviewText} = req.body;
-        location.reviews.push({ 
-            author,
-            rating,
-            reviewText
-        });
-    location.save((err, location) => { 
-                    if (err) {
-                            res
-                                .status(400)
-                                .json(err);
-                    } else {
-                        updateAverageRating(location._id); 
-                        const thisReview = location.reviews.slice(-1).pop();
-                        res 
-                            .status(201)
-                            .json(thisReview);
-                    }
-        });
-    }
-};
+
 
 const doSetAverageRating = (location) => { 
     if (location.reviews && location.reviews.length > 0) {
