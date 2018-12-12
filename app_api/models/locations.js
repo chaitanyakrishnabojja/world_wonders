@@ -40,6 +40,7 @@ const locationSchema = new mongoose.Schema({
     required: true
   },
   address: String,
+  description: String,
   rating: {
     type: Number,
     'default': 0,

@@ -19,6 +19,7 @@ const locationsCreate = (req, res) => {
     Loc.create({ 
         name: req.body.name,
         address: req.body.address,
+        description: req.body.description,
         facilities: req.body.facilities.split(",")
         // coords: [parseFloat(req.body.lng), parseFloat(req.body.lat)], 
         // openingTimes: [{
@@ -86,6 +87,7 @@ const locationsUpdateOne = (req, res) => {
                 }
                 location.name = req.body.name; 
                 location.address = req.body.address; 
+                location.description = req.body.description;
                 location.facilities = req.body.facilities.split(','); 
                 // location.coords = [ 
                 //     parseFloat(req.body.lng), 

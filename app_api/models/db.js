@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-let dbURI = 'mongodb://admin1:admin1@ds042607.mlab.com:42607/mean_angular7';
+let dbURI = 'mongodb://admin1:admin1@ds018258.mlab.com:18258/world_wonders_db';
 // if (process.env.NODE_ENV === 'production') {
 //   dbURI = process.env.MONGODB_URI;
 // }
